@@ -20,8 +20,8 @@ class Tokenizer:
         self.tokens = []
 
     def tokenize_stream(self, stream):
-        # For the purpose of this function, a stream is any object that supports iterating over it, where each element
-        # is thought to represent an entry in the configuration file.
+        # For the purpose of this function, a stream is any object that supports iterating over it,
+        # where each element is thought to represent an entry in the configuration file.
         for line in stream:
             if line.startswith("[") and line.endswith("]"):
                 self.tokens.append(Token(TokenKind.SECTION, line))
