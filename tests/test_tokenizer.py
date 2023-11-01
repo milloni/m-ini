@@ -1,4 +1,3 @@
-import pytest
 from mini.tokenizer import Tokenizer, TokenKind
 
 
