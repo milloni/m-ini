@@ -1,5 +1,5 @@
 from enum import Enum
-
+from mini.document import IniDocument
 
 class TokenKind(Enum):
     SECTION = 1
@@ -34,5 +34,30 @@ class Tokenizer:
             else:
                 self.tokens.append(Token(TokenKind.MALFORMED, line))
 
-    def tokens(self):
-        return self.tokens
+    def construct_document(self):
+        # Keep track of what section we're in. `None` means the default section.
+        current_section = None
+        doc = IniDocument()
+
+        for token in self.tokens:
+            if token.kind == TokenKind.SECTION:
+                current_section = token.raw_value.strip("[]")
+                doc.add_section(current_section)
+            elif token.kind == TokenKind.PARAMETER:
+                key, value = [x.strip() for x in token.raw_value.split("=")]
+                if current_section:
+                    doc[current_section][key] = value
+                else:
+                    doc[key] = value
+            elif token.kind == TokenKind.EMPTY:
+                pass
+            elif token.kind == TokenKind.COMMENT:
+                # In an alternative universe, we might preserve comments in the document object, but
+                # for now we just ignore them.
+                pass
+            elif token.kind == TokenKind.MALFORMED:
+                ## TODO: ooops
+                pass
+            else:
+                raise ValueError(f"Unknown token kind: {token.kind}")
+        return doc

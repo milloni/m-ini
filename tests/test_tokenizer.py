@@ -1,5 +1,5 @@
 from mini.tokenizer import Tokenizer, TokenKind
-
+from mini.document import IniDocument
 
 def test_tokenizer_good():
     s = [
@@ -18,6 +18,21 @@ def test_tokenizer_good():
     assert tokenizer.tokens[2].kind == TokenKind.EMPTY
     assert tokenizer.tokens[3].kind == TokenKind.COMMENT
     assert tokenizer.tokens[4].kind == TokenKind.COMMENT
+
+
+def test_document_construction():
+    s = [
+        "[data]",
+        "name = Leon",
+        "",
+        "; semicolon indicates a comment",
+        "# and so does a hash",
+    ]
+    tokenizer = Tokenizer()
+    tokenizer.tokenize_stream(s)
+
+    doc = tokenizer.construct_document()
+    assert doc["data"]["name"] == "Leon"
 
 
 def test_tokenizer_malformed():
