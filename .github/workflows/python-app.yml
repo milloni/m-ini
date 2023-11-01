@@ -19,11 +19,14 @@ jobs:
     - uses: actions/setup-python@v3
       with:
         python-version: "3.11"
-    - name: Build
+    - name: Build the code
       run: |
         python -m pip install --upgrade pip
         pip install -r requirements.txt
         pip install -e .
-    - name: Test
+    - name: Test the code
       run: |
         pytest
+    - name: Lint the code
+      run: |
+        pylint $(git ls-files '*.py')
