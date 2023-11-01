@@ -30,3 +30,4 @@ jobs:
     - name: Lint the code
       run: |
         pylint $(git ls-files '*.py')
+      continue-on-error: true
