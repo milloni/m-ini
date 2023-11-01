@@ -14,6 +14,8 @@ class IniDocument:
             return self._default_section[key]
 
     def __setitem__(self, key, value):
-        # Cf __getitem__
-        # TODO error handle if a section with this name exists
+        # Add a new parameter in the default section, but first check if a such with# the same
+        # name doesn't exist
+        if key in self._sections:
+            raise ValueError(f"Section '{key}' already exists")
         self._default_section[key] = value
