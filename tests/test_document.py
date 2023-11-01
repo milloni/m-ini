@@ -1,6 +1,9 @@
 import pytest
 from mini.document import IniDocument
+import pathlib
+import os
 
+data_path = pathlib.Path(os.path.dirname(__file__)).joinpath("data")
 
 def test_document():
     doc = IniDocument()
@@ -33,4 +36,17 @@ def test_name_clash():
 
 
 def test_serialize():
-    pass
+    doc = IniDocument()
+    doc.add_section("pets")
+    doc["pets"]["name"] = "Leon"
+    doc["pets"]["species"] = "cat"
+    doc["language"] = "Polish"
+    doc["location"] = "Poland"
+
+    # Compare serialized output with expected text
+    expected_text_path = data_path.joinpath("hello.ini")
+    with open(expected_text_path, "r") as f:
+        expected_text = f.read()
+    text = doc.to_str()
+    print(text)
+    assert text == expected_text
