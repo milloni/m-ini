@@ -10,8 +10,7 @@ class IniDocument:
         # This could be either a section, or a parameter in the default section
         if key in self._sections:
             return self._sections[key]
-        else:
-            return self._default_section[key]
+        return self._default_section[key]
 
     def __setitem__(self, key, value):
         # Add a new parameter in the default section, but first make sure there is no section
@@ -19,20 +18,20 @@ class IniDocument:
         if key in self._sections:
             raise ValueError(f"Section '{key}' already exists")
         self._default_section[key] = value
-    
+
     def to_str(self) -> str:
         result = ""
 
         # Write the default section
-        for parameter in self._default_section:
-            result += f"{parameter} = {self._default_section[parameter]}\n"
+        for key, value in self._default_section.items():
+            result += f"{key} = {value}\n"
         result += "\n"
 
         # Write remaining sections
-        for section in self._sections:
+        for section, parameters in self._sections.items():
             result += f"[{section}]\n"
-            for parameter in self._sections[section]:
-                result += f"{parameter} = {self._sections[section][parameter]}\n"
+            for key, value in parameters.items():
+                result += f"{key} = {value}\n"
             result += "\n"
         return result
         # TODO: fix spurious newline at the end

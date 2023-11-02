@@ -6,7 +6,7 @@ test: build
 	pytest
 
 lint: build
-	pylint $(shell git ls-files '*.py')
+	pylint --source-roots . $(git ls-files '*.py')
 
 build:
 	python -m pip install --upgrade pip

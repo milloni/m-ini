@@ -1,5 +1,4 @@
 from mini.tokenizer import Tokenizer, TokenKind
-from mini.document import IniDocument
 
 def test_tokenizer_good():
     s = [
