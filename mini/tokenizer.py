@@ -1,5 +1,7 @@
 from enum import Enum
+from dataclasses import dataclass
 from .document import IniDocument
+
 
 class TokenKind(Enum):
     SECTION = 1
@@ -9,10 +11,10 @@ class TokenKind(Enum):
     MALFORMED = 5
 
 
+@dataclass
 class Token:
-    def __init__(self, kind: TokenKind, raw_value: str):
-        self.kind = kind
-        self.raw_value = raw_value
+    kind: TokenKind
+    raw_value: str
 
 
 class Tokenizer:
