@@ -1,5 +1,5 @@
 from enum import Enum
-from mini.document import IniDocument
+from .document import IniDocument
 
 class TokenKind(Enum):
     SECTION = 1

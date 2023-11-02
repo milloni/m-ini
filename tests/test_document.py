@@ -1,9 +1,10 @@
+import os
+import pathlib
 import pytest
 from mini.document import IniDocument
-import pathlib
-import os
 
 data_path = pathlib.Path(os.path.dirname(__file__)).joinpath("data")
+
 
 def test_document():
     doc = IniDocument()
@@ -45,7 +46,7 @@ def test_serialize():
 
     # Compare serialized output with expected text
     expected_text_path = data_path.joinpath("hello.ini")
-    with open(expected_text_path, "r") as f:
+    with open(expected_text_path, "r", encoding="utf-8") as f:
         expected_text = f.read()
     text = doc.to_str()
     print(text)
