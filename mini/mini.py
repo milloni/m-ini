@@ -7,8 +7,8 @@ def create_parser():
     group = parser.add_mutually_exclusive_group(required=True)
     group.add_argument('--validate', action='store_true', help='validate INI file')
     group.add_argument('--get', type=str, help='get value from INI file')
-    parser.add_argument('path', type=str, help='path to the INI file to be parsed')
-
+    parser.add_argument('--section', type=str, help='specifiy section (use with --get)')
+    parser.add_argument('path', type=str, help='path to INI file to be parsed')
     return parser
 
 
@@ -33,7 +33,10 @@ def main():
 
     if args.get:
         prmkey = args.get
-        print(doc[prmkey])
+        if args.section:
+            print(doc[args.section][prmkey])
+        else:
+            print(doc[prmkey])
 
 
 if __name__ == "__main__":
