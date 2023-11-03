@@ -25,7 +25,8 @@ class IniDocument:
         # Write the default section
         for key, value in self._default_section.items():
             result += f"{key} = {value}\n"
-        result += "\n"
+        if self._default_section:
+            result += "\n"
 
         # Write remaining sections
         for section, parameters in self._sections.items():

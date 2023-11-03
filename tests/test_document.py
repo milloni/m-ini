@@ -63,5 +63,28 @@ def test_only_default_section():
     with open(expected_text_path, "r", encoding="utf-8") as f:
         expected_text = f.read()
     text = doc.to_str()
+    assert text == expected_text
+
+
+def test_many_sections():
+    doc = IniDocument()
+    doc.add_section("London")
+    doc["London"]["population"] = "8900000"
+    doc["London"]["region"] = "Greater London"
+    doc.add_section("Birmingham")
+    doc["Birmingham"]["population"] = "1100000"
+    doc["Birmingham"]["region"] = "West Midlands"
+    doc.add_section("Manchester")
+    doc["Manchester"]["population"] = "550000"
+    doc["Manchester"]["region"] = "Greater Manchester"
+    doc.add_section("Glasgow")
+    doc["Glasgow"]["population"] = "600000"
+    doc["Glasgow"]["region"] = "Scotland"
+
+    # Compare serialized output with expected text
+    expected_text_path = data_path.joinpath("many_sections.ini")
+    with open(expected_text_path, "r", encoding="utf-8") as f:
+        expected_text = f.read()
+    text = doc.to_str()
     print(text)
     assert text == expected_text
