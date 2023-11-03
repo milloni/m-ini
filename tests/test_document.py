@@ -8,39 +8,39 @@ data_path = pathlib.Path(os.path.dirname(__file__)).joinpath("data")
 
 def test_document():
     doc = IniDocument()
-    doc.add_section("pets")
-    doc["pets"]["name"] = "Leon"
-    doc["pets"]["species"] = "cat"
+    doc.add_section("pet")
+    doc["pet"]["name"] = "Leon"
+    doc["pet"]["species"] = "cat"
     doc["language"] = "Polish"
     doc["location"] = "Poland"
 
-    assert doc["pets"]["name"] == "Leon"
-    assert doc["pets"]["species"] == "cat"
+    assert doc["pet"]["name"] == "Leon"
+    assert doc["pet"]["species"] == "cat"
     assert doc["language"] == "Polish"
     assert doc["location"] == "Poland"
 
 
 def test_name_clash():
     doc = IniDocument()
-    doc.add_section("pets")
-    doc["pets"]["name"] = "Leon"
-    doc["pets"]["species"] = "cat"
+    doc.add_section("pet")
+    doc["pet"]["name"] = "Leon"
+    doc["pet"]["species"] = "cat"
     doc["language"] = "Polish"
     doc["location"] = "Poland"
 
     # We should get an error when parameter name clashes with section name
     with pytest.raises(ValueError):
-        doc["pets"] = "I like pets"
+        doc["pet"] = "I like cats"
     # Overwriting a parameter should be fine
-    doc["pets"]["name"] = "Bimba"
-    assert doc["pets"]["name"] == "Bimba"
+    doc["pet"]["name"] = "Bimba"
+    assert doc["pet"]["name"] == "Bimba"
 
 
 def test_serialize():
     doc = IniDocument()
-    doc.add_section("pets")
-    doc["pets"]["name"] = "Leon"
-    doc["pets"]["species"] = "cat"
+    doc.add_section("pet")
+    doc["pet"]["name"] = "Leon"
+    doc["pet"]["species"] = "cat"
     doc["language"] = "Polish"
     doc["location"] = "Poland"
 
