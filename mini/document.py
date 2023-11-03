@@ -33,6 +33,6 @@ class IniDocument:
             for key, value in parameters.items():
                 result += f"{key} = {value}\n"
             result += "\n"
-    
+
         # Ensure there is only one newline at the end of the file
         return result.rstrip("\n") + "\n"

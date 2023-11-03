@@ -51,3 +51,17 @@ def test_serialize():
     text = doc.to_str()
     print(text)
     assert text == expected_text
+
+
+def test_only_default_section():
+    doc = IniDocument()
+    doc["language"] = "Polish"
+    doc["location"] = "Poland"
+
+    # Compare serialized output with expected text
+    expected_text_path = data_path.joinpath("only_default_section.ini")
+    with open(expected_text_path, "r", encoding="utf-8") as f:
+        expected_text = f.read()
+    text = doc.to_str()
+    print(text)
+    assert text == expected_text
