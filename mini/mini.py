@@ -4,8 +4,11 @@ from .tokenizer import Tokenizer
 
 def create_parser():
     parser = argparse.ArgumentParser(description='INI parser')
-    parser.add_argument('command', type=str, help='available commands: validate, get')
+    group = parser.add_mutually_exclusive_group(required=True)
+    group.add_argument('--validate', action='store_true', help='validate INI file')
+    group.add_argument('--get', type=str, help='get value from INI file')
     parser.add_argument('path', type=str, help='path to the INI file to be parsed')
+
     return parser
 
 
@@ -20,16 +23,17 @@ def main():
         is_valid = True
     except ValueError as _:
         is_valid = False
-    if args.command == 'validate':
-        if is_valid:
-            print('OK')
-        else:
-            print("Syntax error in INI file")
-    elif args.command == 'get':
-        pass
-    else:
-        print("Wrong command")
-        pass
+
+    if not is_valid:
+        print("Syntax error in INI file")
+        return
+
+    if args.validate:
+        print('OK')
+
+    if args.get:
+        prmkey = args.get
+        print(doc[prmkey])
 
 
 if __name__ == "__main__":
