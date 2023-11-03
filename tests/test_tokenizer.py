@@ -1,5 +1,10 @@
+import os
+import pathlib
 import pytest
 from mini.tokenizer import Tokenizer, TokenKind
+
+data_path = pathlib.Path(os.path.dirname(__file__)).joinpath("data")
+
 
 def test_tokenizer_good():
     s = [
@@ -33,6 +38,18 @@ def test_document_construction():
 
     doc = tokenizer.construct_document()
     assert doc["data"]["name"] == "Leon"
+
+
+def test_document_construction2():
+    ini_path = data_path.joinpath("hello.ini")
+    with open(ini_path, 'r', encoding="utf-8") as f:
+        tokenizer = Tokenizer()
+        tokenizer.tokenize_stream(f)
+    doc = tokenizer.construct_document()
+    assert doc["language"] == "Polish"
+    assert doc["location"] == "Poland"
+    assert doc["pet"]["name"] == "Leon"
+    assert doc["pet"]["species"] == "cat"
 
 
 def test_tokenizer_malformed():
