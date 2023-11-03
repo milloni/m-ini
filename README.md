@@ -7,19 +7,19 @@ Max's INI (Mini) is a simple parser for the INI configuration format, implemente
 Create a Python virtual environment (venv)
 
 ```bash
-$ virtualenv .venv
+virtualenv .venv
 ```
 
 Activate venv
 
 ```bash
-$ source .venv/bin/activate
+source .venv/bin/activate
 ```
 
 Install mini in the virtual environment
 
 ```bash
-$ make build
+make build
 ```
 
 ## Usage
@@ -27,7 +27,7 @@ $ make build
 The following command will convert a sample INI file to JSON
 
 ```bash
-$ mini --json tests/data/hello.ini
+mini --json tests/data/hello.ini
 ```
 
 For more information, run `mini --help`
@@ -37,5 +37,5 @@ For more information, run `mini --help`
 Run pytest unit tests
 
 ```bash
-$ make test
+make test
 ```
