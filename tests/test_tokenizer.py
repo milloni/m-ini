@@ -1,3 +1,4 @@
+import pytest
 from mini.tokenizer import Tokenizer, TokenKind
 
 def test_tokenizer_good():
@@ -53,3 +54,18 @@ def test_tokenizer_malformed():
     assert tokenizer.tokens[3].kind == TokenKind.COMMENT
     assert tokenizer.tokens[4].kind == TokenKind.COMMENT
     assert tokenizer.tokens[5].kind == TokenKind.MALFORMED
+
+
+def test_construct_document_error():
+    s = [
+        "[data]",
+        "name = Leon",
+        "",
+        "; semicolon indicates a comment",
+        "# and so does a hash",
+        "[code",
+    ]
+    tokenizer = Tokenizer()
+    tokenizer.tokenize_stream(s)
+    with pytest.raises(ValueError):
+        tokenizer.construct_document()

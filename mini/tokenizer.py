@@ -58,8 +58,7 @@ class Tokenizer:
                 # for now we just ignore them.
                 pass
             elif token.kind == TokenKind.MALFORMED:
-                ## TODO: ooops
-                pass
+                raise ValueError(f"Syntax error in token: {token.raw_value}")
             else:
                 raise ValueError(f"Unknown token kind: {token.kind}")
         return doc
