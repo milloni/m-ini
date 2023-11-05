@@ -7,6 +7,7 @@ def create_parser():
     group = parser.add_mutually_exclusive_group(required=True)
     group.add_argument('--validate', action='store_true', help='validate INI file')
     group.add_argument('--get', type=str, help='get value from INI file')
+    group.add_argument('--json', action='store_true', help='convert INI file to JSON')
     parser.add_argument('--section', type=str, help='specifiy section (use with --get)')
     parser.add_argument('path', type=str, help='path to INI file to be parsed')
     return parser
@@ -30,6 +31,11 @@ def main():
 
     if args.validate:
         print('OK')
+        return
+
+    if args.json:
+        print(doc.to_json())
+        return
 
     if args.get:
         prmkey = args.get

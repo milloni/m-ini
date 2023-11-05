@@ -88,3 +88,22 @@ def test_many_sections():
     text = doc.to_str()
     print(text)
     assert text == expected_text
+
+
+def test_json():
+    doc = IniDocument()
+    doc.add_section("pet")
+    doc["pet"]["name"] = "Leon"
+    doc["pet"]["species"] = "cat"
+    doc["language"] = "Polish"
+    doc["location"] = "Poland"
+
+    expected_json = """{
+  "language": "Polish",
+  "location": "Poland",
+  "pet": {
+    "name": "Leon",
+    "species": "cat"
+  }
+}"""
+    assert doc.to_json() == expected_json

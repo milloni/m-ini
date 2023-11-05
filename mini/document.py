@@ -1,3 +1,5 @@
+import json
+
 class IniDocument:
     def __init__(self):
         self._sections = {}
@@ -37,3 +39,8 @@ class IniDocument:
 
         # Ensure there is only one newline at the end of the file
         return result.rstrip("\n") + "\n"
+
+    def to_json(self) -> str:
+        # Merge _default_section with _sections (they are both dictionaries)
+        d = self._default_section | self._sections
+        return json.dumps(d, indent=2)
