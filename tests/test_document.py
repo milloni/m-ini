@@ -6,34 +6,32 @@ from mini.document import IniDocument
 data_path = pathlib.Path(os.path.dirname(__file__)).joinpath("data")
 
 
-def test_document():
+@pytest.fixture
+def hello_doc():
     doc = IniDocument()
     doc.add_section("pet")
     doc["pet"]["name"] = "Leon"
     doc["pet"]["species"] = "cat"
     doc["language"] = "Polish"
     doc["location"] = "Poland"
-
-    assert doc["pet"]["name"] == "Leon"
-    assert doc["pet"]["species"] == "cat"
-    assert doc["language"] == "Polish"
-    assert doc["location"] == "Poland"
+    return doc
 
 
-def test_name_clash():
-    doc = IniDocument()
-    doc.add_section("pet")
-    doc["pet"]["name"] = "Leon"
-    doc["pet"]["species"] = "cat"
-    doc["language"] = "Polish"
-    doc["location"] = "Poland"
+def test_document(hello_doc):
+    assert hello_doc["pet"]["name"] == "Leon"
+    assert hello_doc["pet"]["species"] == "cat"
+    assert hello_doc["language"] == "Polish"
+    assert hello_doc["location"] == "Poland"
 
-    # We should get an error when parameter name clashes with section name
+
+def test_name_clash(hello_doc):
+    # Attempt to add a parameter where as a section with the same name
+    # exists - this is not allowed.
     with pytest.raises(ValueError):
-        doc["pet"] = "I like cats"
+        hello_doc["pet"] = "I like cats"
     # Overwriting a parameter should be fine
-    doc["pet"]["name"] = "Bimba"
-    assert doc["pet"]["name"] == "Bimba"
+    hello_doc["pet"]["name"] = "Bimba"
+    assert hello_doc["pet"]["name"] == "Bimba"
 
 
 def test_serialize():
