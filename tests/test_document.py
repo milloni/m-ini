@@ -15,10 +15,28 @@ def hello_doc(request):
         doc["pet"]["species"] = "cat"
         doc["language"] = "Polish"
         doc["location"] = "Poland"
+    elif request.param == "only_default_section":
+        doc = IniDocument()
+        doc["language"] = "Polish"
+        doc["location"] = "Poland"
+    elif request.param == "many_sections":
+        doc = IniDocument()
+        doc.add_section("London")
+        doc["London"]["population"] = "8900000"
+        doc["London"]["region"] = "Greater London"
+        doc.add_section("Birmingham")
+        doc["Birmingham"]["population"] = "1100000"
+        doc["Birmingham"]["region"] = "West Midlands"
+        doc.add_section("Manchester")
+        doc["Manchester"]["population"] = "550000"
+        doc["Manchester"]["region"] = "Greater Manchester"
+        doc.add_section("Glasgow")
+        doc["Glasgow"]["population"] = "600000"
+        doc["Glasgow"]["region"] = "Scotland"
     return doc
 
 
-@pytest.mark.parametrize("hello_doc", ["hello"], indirect=True)
+@pytest.mark.parametrize("hello_doc", ["hello"], indirect=["hello_doc"])
 def test_document(hello_doc):
     assert hello_doc["pet"]["name"] == "Leon"
     assert hello_doc["pet"]["species"] == "cat"
@@ -26,7 +44,7 @@ def test_document(hello_doc):
     assert hello_doc["location"] == "Poland"
 
 
-@pytest.mark.parametrize("hello_doc", ["hello"], indirect=True)
+@pytest.mark.parametrize("hello_doc", ["hello"], indirect=["hello_doc"])
 def test_name_clash(hello_doc):
     # Attempt to add a parameter where as a section with the same name
     # exists - this is not allowed.
@@ -37,56 +55,19 @@ def test_name_clash(hello_doc):
     assert hello_doc["pet"]["name"] == "Bimba"
 
 
-def test_serialize():
-    doc = IniDocument()
-    doc.add_section("pet")
-    doc["pet"]["name"] = "Leon"
-    doc["pet"]["species"] = "cat"
-    doc["language"] = "Polish"
-    doc["location"] = "Poland"
-
+@pytest.mark.parametrize(
+    "hello_doc, filename_expected", [
+        ("hello", "hello.ini"),
+        ("only_default_section", "only_default_section.ini"),
+        ("many_sections", "many_sections.ini")
+    ], indirect=["hello_doc"]
+)
+def test_serialize(hello_doc, filename_expected):
     # Compare serialized output with expected text
-    expected_text_path = data_path.joinpath("hello.ini")
+    expected_text_path = data_path.joinpath(filename_expected)
     with open(expected_text_path, "r", encoding="utf-8") as f:
         expected_text = f.read()
-    text = doc.to_str()
-    print(text)
-    assert text == expected_text
-
-
-def test_only_default_section():
-    doc = IniDocument()
-    doc["language"] = "Polish"
-    doc["location"] = "Poland"
-
-    # Compare serialized output with expected text
-    expected_text_path = data_path.joinpath("only_default_section.ini")
-    with open(expected_text_path, "r", encoding="utf-8") as f:
-        expected_text = f.read()
-    text = doc.to_str()
-    assert text == expected_text
-
-
-def test_many_sections():
-    doc = IniDocument()
-    doc.add_section("London")
-    doc["London"]["population"] = "8900000"
-    doc["London"]["region"] = "Greater London"
-    doc.add_section("Birmingham")
-    doc["Birmingham"]["population"] = "1100000"
-    doc["Birmingham"]["region"] = "West Midlands"
-    doc.add_section("Manchester")
-    doc["Manchester"]["population"] = "550000"
-    doc["Manchester"]["region"] = "Greater Manchester"
-    doc.add_section("Glasgow")
-    doc["Glasgow"]["population"] = "600000"
-    doc["Glasgow"]["region"] = "Scotland"
-
-    # Compare serialized output with expected text
-    expected_text_path = data_path.joinpath("many_sections.ini")
-    with open(expected_text_path, "r", encoding="utf-8") as f:
-        expected_text = f.read()
-    text = doc.to_str()
+    text = hello_doc.to_str()
     print(text)
     assert text == expected_text
 
