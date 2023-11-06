@@ -30,7 +30,11 @@ The following command will convert a sample INI file to JSON
 mini --json tests/data/hello.ini
 ```
 
-For more information, run `mini --help`
+For more information, run
+
+```bash
+mini --help
+```
 
 ## Development
 
