@@ -5,7 +5,7 @@ from .tokenizer import Tokenizer
 def create_parser():
     parser = argparse.ArgumentParser(description='INI parser')
     group = parser.add_mutually_exclusive_group()
-    group.add_argument('--validate', action='store_true', default=True, help='validate INI file')
+    group.add_argument('--validate', action='store_true', help='validate INI file')
     group.add_argument('--get', type=str, help='get value from INI file')
     group.add_argument('--json', action='store_true', help='convert INI file to JSON')
     parser.add_argument('--section', type=str, help='specifiy section (use with --get)')
