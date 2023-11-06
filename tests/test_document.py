@@ -15,10 +15,12 @@ def hello_doc(request):
         doc["pet"]["species"] = "cat"
         doc["language"] = "Polish"
         doc["location"] = "Poland"
+
     elif request.param == "only_default_section":
         doc = IniDocument()
         doc["language"] = "Polish"
         doc["location"] = "Poland"
+
     elif request.param == "many_sections":
         doc = IniDocument()
         doc.add_section("London")
@@ -33,6 +35,7 @@ def hello_doc(request):
         doc.add_section("Glasgow")
         doc["Glasgow"]["population"] = "600000"
         doc["Glasgow"]["region"] = "Scotland"
+
     return doc
 
 
