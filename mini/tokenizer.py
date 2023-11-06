@@ -18,12 +18,25 @@ class Token:
 
 
 class Tokenizer:
+    """
+    This class represents a lexer and parser for INI configuration files. It can be used to
+    construct an IniDocument object from text.
+    """
+
     def __init__(self):
         self.tokens = []
 
     def tokenize_stream(self, stream):
-        # For the purpose of this function, a stream is any object that supports iterating over it,
-        # where each element is thought to represent an entry in the configuration file.
+        """
+        Initialize the tokenizer with a stream of INI configuration records.
+
+        For the purpose of this function, a stream is any object that supports iterating over it,
+        where each element is thought to represent an INI record.
+
+        For example, if `stream` is a file object returned by `open()`, then each line of the
+        file is a separate INI record. Multi-line records are not supported.
+        """
+
         for line in stream:
             rtok = line.strip("\n")
             if rtok.startswith("[") and rtok.endswith("]"):
@@ -37,7 +50,13 @@ class Tokenizer:
             else:
                 self.tokens.append(Token(TokenKind.MALFORMED, rtok))
 
-    def construct_document(self):
+    def construct_document(self) -> IniDocument:
+        """
+        Construct an IniDocument object from a previously tokenized stream.
+
+        The tokenizer must be initiated with `tokenize_stream()` prior to calling this method.
+        """
+
         # Keep track of what section we're in. `None` means the default section.
         current_section = None
         doc = IniDocument()
@@ -52,9 +71,7 @@ class Tokenizer:
                     doc[current_section][key] = value
                 else:
                     doc[key] = value
-            elif token.kind == TokenKind.EMPTY:
-                pass
-            elif token.kind == TokenKind.COMMENT:
+            elif token.kind in (TokenKind.EMPTY, TokenKind.COMMENT):
                 # In an alternative universe, we might preserve comments in the document object, but
                 # for now we just ignore them.
                 pass

@@ -49,11 +49,11 @@ def test_document(ini_doc):
 
 @pytest.mark.parametrize("ini_doc", ["hello"], indirect=["ini_doc"])
 def test_name_clash(ini_doc):
-    # Attempt to add a parameter where as a section with the same name
+    # Attempt to add a property where as a section with the same name
     # exists - this is not allowed.
     with pytest.raises(ValueError):
         ini_doc["pet"] = "I like cats"
-    # Overwriting a parameter should be fine
+    # Overwriting a property should be fine
     ini_doc["pet"]["name"] = "Bimba"
     assert ini_doc["pet"]["name"] == "Bimba"
 
