@@ -1,3 +1,4 @@
+import re
 from enum import Enum
 from dataclasses import dataclass
 from .document import IniDocument
@@ -39,7 +40,7 @@ class Tokenizer:
 
         for line in stream:
             rtok = line.strip("\n")
-            if rtok.startswith("[") and rtok.endswith("]"):
+            if re.match(r"^\[[a-zA-Z]+\]$", rtok):
                 self.tokens.append(Token(TokenKind.SECTION, rtok))
             elif rtok.startswith(";") or rtok.startswith("#"):
                 self.tokens.append(Token(TokenKind.COMMENT, rtok))
