@@ -40,13 +40,15 @@ class Tokenizer:
 
         for line in stream:
             rtok = line.strip("\n")
+            # Allow any section name that consists solely of letters
             if re.match(r"^\[[a-zA-Z]+\]$", rtok):
                 self.tokens.append(Token(TokenKind.SECTION, rtok))
             elif rtok.startswith(";") or rtok.startswith("#"):
                 self.tokens.append(Token(TokenKind.COMMENT, rtok))
             elif rtok == "":
                 self.tokens.append(Token(TokenKind.EMPTY, rtok))
-            elif "=" in rtok:
+            # Match any x=y pattern, with an arbitrary amount of whitespace around the equals sign
+            elif re.match(r"[a-zA-Z]+\s*\=\s*[a-zA-Z]+$", rtok):
                 self.tokens.append(Token(TokenKind.PARAMETER, rtok))
             else:
                 self.tokens.append(Token(TokenKind.MALFORMED, rtok))
