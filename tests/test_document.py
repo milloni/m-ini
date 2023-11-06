@@ -71,24 +71,17 @@ def test_serialize(hello_doc, filename_expected):
     with open(expected_text_path, "r", encoding="utf-8") as f:
         expected_text = f.read()
     text = hello_doc.to_str()
-    print(text)
     assert text == expected_text
 
 
-def test_json():
-    doc = IniDocument()
-    doc.add_section("pet")
-    doc["pet"]["name"] = "Leon"
-    doc["pet"]["species"] = "cat"
-    doc["language"] = "Polish"
-    doc["location"] = "Poland"
-
-    expected_json = """{
-  "language": "Polish",
-  "location": "Poland",
-  "pet": {
-    "name": "Leon",
-    "species": "cat"
-  }
-}"""
-    assert doc.to_json() == expected_json
+@pytest.mark.parametrize(
+    "hello_doc, filename_expected",
+    [("hello", "hello.json")],
+    indirect=["hello_doc"]
+)
+def test_json(hello_doc, filename_expected):
+    # Read expected JSON from file and compare with the output.
+    json_path = data_path.joinpath(filename_expected)
+    with open(json_path, "r", encoding="utf-8") as f:
+        expected_json = f.read().strip()
+    assert hello_doc.to_json() == expected_json
