@@ -6,7 +6,7 @@ from .document import IniDocument
 
 class TokenKind(Enum):
     SECTION = 1
-    PARAMETER = 2
+    PROPERTY = 2
     COMMENT = 3
     EMPTY = 4
     MALFORMED = 5
@@ -49,7 +49,7 @@ class Tokenizer:
                 self.tokens.append(Token(TokenKind.EMPTY, rtok))
             # Match any x=y pattern, with an arbitrary amount of whitespace around the equals sign
             elif re.match(r"[0-9a-zA-Z]+\s*\=\s*[0-9a-zA-Z]+$", rtok):
-                self.tokens.append(Token(TokenKind.PARAMETER, rtok))
+                self.tokens.append(Token(TokenKind.PROPERTY, rtok))
             else:
                 self.tokens.append(Token(TokenKind.MALFORMED, rtok))
 
@@ -68,7 +68,7 @@ class Tokenizer:
             if token.kind == TokenKind.SECTION:
                 current_section = token.raw_value.strip("[]")
                 doc.add_section(current_section)
-            elif token.kind == TokenKind.PARAMETER:
+            elif token.kind == TokenKind.PROPERTY:
                 key, value = [x.strip() for x in token.raw_value.split("=")]
                 if current_section:
                     doc[current_section][key] = value

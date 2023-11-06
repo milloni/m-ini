@@ -18,7 +18,7 @@ def test_tokenizer_good():
     tokenizer.tokenize_stream(s)
 
     assert tokenizer.tokens[0].kind == TokenKind.SECTION
-    assert tokenizer.tokens[1].kind == TokenKind.PARAMETER
+    assert tokenizer.tokens[1].kind == TokenKind.PROPERTY
     assert tokenizer.tokens[2].kind == TokenKind.EMPTY
     assert tokenizer.tokens[3].kind == TokenKind.COMMENT
     assert tokenizer.tokens[4].kind == TokenKind.COMMENT
@@ -77,7 +77,7 @@ def test_tokenizer_malformed():
     tokenizer.tokenize_stream(s)
 
     assert tokenizer.tokens[0].kind == TokenKind.SECTION
-    assert tokenizer.tokens[1].kind == TokenKind.PARAMETER
+    assert tokenizer.tokens[1].kind == TokenKind.PROPERTY
     assert tokenizer.tokens[2].kind == TokenKind.EMPTY
     assert tokenizer.tokens[3].kind == TokenKind.COMMENT
     assert tokenizer.tokens[4].kind == TokenKind.COMMENT
@@ -107,4 +107,4 @@ def test_parse_numbers():
     tokenizer = Tokenizer()
     tokenizer.tokenize_stream(s)
     assert tokenizer.tokens[0].kind == TokenKind.SECTION
-    assert tokenizer.tokens[1].kind == TokenKind.PARAMETER
+    assert tokenizer.tokens[1].kind == TokenKind.PROPERTY
