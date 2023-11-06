@@ -17,7 +17,6 @@ def test_tokenizer_good():
     tokenizer = Tokenizer()
     tokenizer.tokenize_stream(s)
 
-    # Trade off between test simplicity and performance. If not O(1) access, can be slow
     assert tokenizer.tokens[0].kind == TokenKind.SECTION
     assert tokenizer.tokens[1].kind == TokenKind.PARAMETER
     assert tokenizer.tokens[2].kind == TokenKind.EMPTY
@@ -64,7 +63,6 @@ def test_tokenizer_malformed():
     tokenizer = Tokenizer()
     tokenizer.tokenize_stream(s)
 
-    # Trade off between test simplicity and performance. If not O(1) access, can be slow
     assert tokenizer.tokens[0].kind == TokenKind.SECTION
     assert tokenizer.tokens[1].kind == TokenKind.PARAMETER
     assert tokenizer.tokens[2].kind == TokenKind.EMPTY
