@@ -47,8 +47,9 @@ class Tokenizer:
                 self.tokens.append(Token(TokenKind.COMMENT, rtok))
             elif rtok == "":
                 self.tokens.append(Token(TokenKind.EMPTY, rtok))
-            # Match any x=y pattern, with an arbitrary amount of whitespace around the equals sign
-            elif re.match(r"[0-9a-zA-Z]+\s*\=\s*[0-9a-zA-Z]+$", rtok):
+            # Match any x=y pattern, with an arbitrary amount of whitespace around the equals
+            # sign; spaces are allowed in property values but not property names)
+            elif re.match(r"[0-9a-zA-Z]+\s*\=\s*[0-9a-zA-Z]+[\s0-9a-zA-Z]*$", rtok):
                 self.tokens.append(Token(TokenKind.PROPERTY, rtok))
             else:
                 self.tokens.append(Token(TokenKind.MALFORMED, rtok))

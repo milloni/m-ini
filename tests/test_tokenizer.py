@@ -102,9 +102,11 @@ def test_construct_document_error():
 def test_parse_numbers():
     s = [
         "[data]",
-        "age = 20"
+        "age = 20",
+        "street = Abbey Road"
     ]
     tokenizer = Tokenizer()
     tokenizer.tokenize_stream(s)
     assert tokenizer.tokens[0].kind == TokenKind.SECTION
     assert tokenizer.tokens[1].kind == TokenKind.PROPERTY
+    assert tokenizer.tokens[2].kind == TokenKind.PROPERTY
