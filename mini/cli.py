@@ -21,11 +21,7 @@ def main():
         tokenizer.tokenize_stream(f)
     try:
         doc = tokenizer.construct_document()
-        is_valid = True
     except ValueError as _:
-        is_valid = False
-
-    if not is_valid:
         print("Syntax error in INI file")
         return
 
