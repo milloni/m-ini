@@ -13,7 +13,7 @@ class IniDocument:
     The user can access properties through a dict-like interface, by referring to the property name
     or a section name, in a nested way. For example:
 
-    doc["language"] -> property "language" in the default section
+    doc["language"] -> global property "language"
     doc["pet"]["name"] -> property "name" in section "pet"
     """
 
