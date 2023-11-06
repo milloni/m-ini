@@ -97,3 +97,14 @@ def test_construct_document_error():
     tokenizer.tokenize_stream(s)
     with pytest.raises(ValueError):
         tokenizer.construct_document()
+
+
+def test_parse_numbers():
+    s = [
+        "[data]",
+        "age = 20"
+    ]
+    tokenizer = Tokenizer()
+    tokenizer.tokenize_stream(s)
+    assert tokenizer.tokens[0].kind == TokenKind.SECTION
+    assert tokenizer.tokens[1].kind == TokenKind.PARAMETER

@@ -48,7 +48,7 @@ class Tokenizer:
             elif rtok == "":
                 self.tokens.append(Token(TokenKind.EMPTY, rtok))
             # Match any x=y pattern, with an arbitrary amount of whitespace around the equals sign
-            elif re.match(r"[a-zA-Z]+\s*\=\s*[a-zA-Z]+$", rtok):
+            elif re.match(r"[0-9a-zA-Z]+\s*\=\s*[0-9a-zA-Z]+$", rtok):
                 self.tokens.append(Token(TokenKind.PARAMETER, rtok))
             else:
                 self.tokens.append(Token(TokenKind.MALFORMED, rtok))
