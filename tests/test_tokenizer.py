@@ -51,6 +51,19 @@ def test_document_construction2():
     assert doc["pet"]["species"] == "cat"
 
 
+def test_whitespace():
+    ini_path = data_path.joinpath("whitespace.ini")
+    with open(ini_path, 'r', encoding="utf-8") as f:
+        tokenizer = Tokenizer()
+        tokenizer.tokenize_stream(f)
+    doc = tokenizer.construct_document()
+    assert doc["bed"] == "sleeping"
+    assert doc["chair"] == "sitting"
+    assert doc["road"] == "driving"
+    assert doc["floor"] == "standing"
+    assert doc["garden"] == "gardening"
+
+
 def test_tokenizer_malformed():
     s = [
         "[data]",
