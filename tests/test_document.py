@@ -7,16 +7,18 @@ data_path = pathlib.Path(os.path.dirname(__file__)).joinpath("data")
 
 
 @pytest.fixture
-def hello_doc():
-    doc = IniDocument()
-    doc.add_section("pet")
-    doc["pet"]["name"] = "Leon"
-    doc["pet"]["species"] = "cat"
-    doc["language"] = "Polish"
-    doc["location"] = "Poland"
+def hello_doc(request):
+    if request.param == "hello":
+        doc = IniDocument()
+        doc.add_section("pet")
+        doc["pet"]["name"] = "Leon"
+        doc["pet"]["species"] = "cat"
+        doc["language"] = "Polish"
+        doc["location"] = "Poland"
     return doc
 
 
+@pytest.mark.parametrize("hello_doc", ["hello"], indirect=True)
 def test_document(hello_doc):
     assert hello_doc["pet"]["name"] == "Leon"
     assert hello_doc["pet"]["species"] == "cat"
@@ -24,6 +26,7 @@ def test_document(hello_doc):
     assert hello_doc["location"] == "Poland"
 
 
+@pytest.mark.parametrize("hello_doc", ["hello"], indirect=True)
 def test_name_clash(hello_doc):
     # Attempt to add a parameter where as a section with the same name
     # exists - this is not allowed.
