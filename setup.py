@@ -6,7 +6,7 @@ setup(
     packages = ["mini", "tests"],
     entry_points = {
         "console_scripts": [
-            "mini = mini.mini:main"
+            "mini = mini.cli:main"
         ]
     }
 )
