@@ -1,9 +1,9 @@
-import argparse
-from .tokenizer import Tokenizer
+from argparse import ArgumentParser
+from mini.tokenizer import Tokenizer
 
 
-def create_parser():
-    parser = argparse.ArgumentParser(description='INI parser')
+def create_parser() -> ArgumentParser:
+    parser = ArgumentParser(description='INI parser')
     group = parser.add_mutually_exclusive_group()
     group.add_argument('--validate', action='store_true', help='validate INI file')
     group.add_argument('--get', type=str, help='get value from INI file')
@@ -13,7 +13,7 @@ def create_parser():
     return parser
 
 
-def main():
+def main() -> None:
     parser = create_parser()
     args = parser.parse_args()
     with open(args.path, 'r', encoding="utf-8") as f:

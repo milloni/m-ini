@@ -1,4 +1,6 @@
 import json
+from typing import Dict
+
 
 class IniDocument:
     """
@@ -17,15 +19,22 @@ class IniDocument:
     doc["pet"]["name"] -> property "name" in section "pet"
     """
 
-    def __init__(self):
-        self._sections = {}
-        self._default_section = {}
+    def __init__(self) -> None:
+        self._sections: Dict[str, Dict[str, str]] = {}
+        self._default_section: Dict[str, str] = {}
 
-    def add_section(self, name: str):
+    def add_section(self, name: str) -> None:
         """Add a new section to the config."""
         self._sections[name] = {}
 
-    def __getitem__(self, key: str) -> dict:
+    def get_section(self, name: str) -> Dict[str, str]:
+        """Access a section by name."""
+
+        if name not in self._sections:
+            raise KeyError(f"Section '{name}' does not exist")
+        return self._sections[name]
+
+    def __getitem__(self, key: str) -> Dict[str, str] | str:
         """Access a section or a global property."""
 
         # This could be either a section, or a property in the default section
@@ -33,7 +42,7 @@ class IniDocument:
             return self._sections[key]
         return self._default_section[key]
 
-    def __setitem__(self, key: str, value: str):
+    def __setitem__(self, key: str, value: str) -> None:
         "Set a global property."
 
         # Add a new property in the default section, but first make sure there is no section

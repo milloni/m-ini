@@ -1,4 +1,6 @@
 import re
+from collections.abc import Iterable
+from typing import List
 from enum import Enum
 from dataclasses import dataclass
 from .document import IniDocument
@@ -24,10 +26,10 @@ class Tokenizer:
     construct an IniDocument object from text.
     """
 
-    def __init__(self):
-        self.tokens = []
+    def __init__(self) -> None:
+        self.tokens: List[Token] = []
 
-    def tokenize_stream(self, stream):
+    def tokenize_stream(self, stream: Iterable[str]) -> None:
         """
         Initialize the tokenizer with a stream of INI configuration records.
 
@@ -72,7 +74,7 @@ class Tokenizer:
             elif token.kind == TokenKind.PROPERTY:
                 key, value = [x.strip() for x in token.raw_value.split("=")]
                 if current_section:
-                    doc[current_section][key] = value
+                    doc.get_section(current_section)[key] = value
                 else:
                     doc[key] = value
             elif token.kind in (TokenKind.EMPTY, TokenKind.COMMENT):
