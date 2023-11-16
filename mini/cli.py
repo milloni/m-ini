@@ -16,6 +16,9 @@ def create_parser() -> ArgumentParser:
 def main() -> None:
     parser = create_parser()
     args = parser.parse_args()
+    if args.section and not args.get:
+        print("Warning: --section is ignored without --get")
+
     with open(args.path, 'r', encoding="utf-8") as f:
         tokenizer = Tokenizer()
         tokenizer.tokenize_stream(f)
