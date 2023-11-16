@@ -50,7 +50,7 @@ class Tokenizer:
                 self.tokens.append(Token(TokenKind.SECTION, rtok))
             elif rtok.startswith(";") or rtok.startswith("#"):
                 self.tokens.append(Token(TokenKind.COMMENT, rtok))
-            elif rtok == "":
+            elif rtok.strip() == "":
                 self.tokens.append(Token(TokenKind.EMPTY, rtok))
             # Match any x=y pattern, with an arbitrary amount of whitespace around the equals
             # sign; spaces are allowed in property values but not property names)
