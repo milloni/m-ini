@@ -8,7 +8,7 @@ def create_parser() -> ArgumentParser:
     group.add_argument('--validate', action='store_true', help='validate INI file')
     group.add_argument('--get', type=str, help='get value from INI file')
     group.add_argument('--json', action='store_true', help='convert INI file to JSON')
-    parser.add_argument('--section', type=str, help='specifiy section (use with --get)')
+    parser.add_argument('--section', type=str, help='specify section (use with --get)')
     parser.add_argument('path', type=str, help='path to INI file to be parsed')
     return parser
 
