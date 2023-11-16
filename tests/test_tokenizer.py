@@ -3,7 +3,7 @@ import pathlib
 import pytest
 from mini.tokenizer import Tokenizer, TokenKind
 
-data_path = pathlib.Path(os.path.dirname(__file__)).joinpath("data")
+DATA_PATH = pathlib.Path(os.path.dirname(__file__)).joinpath("data")
 
 
 def test_tokenizer_good():
@@ -40,7 +40,7 @@ def test_document_construction():
 
 
 def test_document_construction2():
-    ini_path = data_path.joinpath("hello.ini")
+    ini_path = DATA_PATH.joinpath("hello.ini")
     with open(ini_path, 'r', encoding="utf-8") as f:
         tokenizer = Tokenizer()
         tokenizer.tokenize_stream(f)
@@ -52,7 +52,7 @@ def test_document_construction2():
 
 
 def test_whitespace():
-    ini_path = data_path.joinpath("whitespace.ini")
+    ini_path = DATA_PATH.joinpath("whitespace.ini")
     with open(ini_path, 'r', encoding="utf-8") as f:
         tokenizer = Tokenizer()
         tokenizer.tokenize_stream(f)

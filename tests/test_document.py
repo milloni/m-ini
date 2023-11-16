@@ -3,7 +3,7 @@ import pathlib
 import pytest
 from mini.document import IniDocument
 
-data_path = pathlib.Path(os.path.dirname(__file__)).joinpath("data")
+DATA_PATH = pathlib.Path(os.path.dirname(__file__)).joinpath("data")
 
 
 @pytest.fixture
@@ -67,7 +67,7 @@ def test_name_clash(ini_doc):
 )
 def test_serialize(ini_doc, filename_expected):
     # Compare serialized output with expected text
-    expected_text_path = data_path.joinpath(filename_expected)
+    expected_text_path = DATA_PATH.joinpath(filename_expected)
     with open(expected_text_path, "r", encoding="utf-8") as f:
         expected_text = f.read()
     text = ini_doc.to_str()
@@ -81,7 +81,7 @@ def test_serialize(ini_doc, filename_expected):
 )
 def test_json(ini_doc, filename_expected):
     # Read expected JSON from file and compare with the output.
-    json_path = data_path.joinpath(filename_expected)
+    json_path = DATA_PATH.joinpath(filename_expected)
     with open(json_path, "r", encoding="utf-8") as f:
         expected_json = f.read().strip()
     assert ini_doc.to_json() == expected_json
