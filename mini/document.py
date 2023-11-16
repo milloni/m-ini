@@ -1,6 +1,7 @@
 import json
 from typing import Dict
 
+type Section = Dict[str, str]
 
 class IniDocument:
     """
@@ -20,21 +21,21 @@ class IniDocument:
     """
 
     def __init__(self) -> None:
-        self._sections: Dict[str, Dict[str, str]] = {}
-        self._default_section: Dict[str, str] = {}
+        self._sections: Dict[str, Section] = {}
+        self._default_section: Section = {}
 
     def add_section(self, name: str) -> None:
         """Add a new section to the config."""
         self._sections[name] = {}
 
-    def get_section(self, name: str) -> Dict[str, str]:
+    def get_section(self, name: str) -> Section:
         """Access a section by name."""
 
         if name not in self._sections:
             raise KeyError(f"Section '{name}' does not exist")
         return self._sections[name]
 
-    def __getitem__(self, key: str) -> Dict[str, str] | str:
+    def __getitem__(self, key: str) -> Section | str:
         """Access a section or a global property."""
 
         # This could be either a section, or a property in the default section
