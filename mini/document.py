@@ -43,7 +43,7 @@ class IniDocument:
         return self._default_section[key]
 
     def __setitem__(self, key: str, value: str) -> None:
-        "Set a global property."
+        """Set a global property."""
 
         # Add a new property in the default section, but first make sure there is no section
         # with the same name.
