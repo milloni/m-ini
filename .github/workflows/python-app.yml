@@ -21,6 +21,17 @@ jobs:
       run: |
         make test
 
+  typecheck:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - uses: actions/setup-python@v3
+      with:
+        python-version: "3.12"
+    - name: Run the type checker
+      run: |
+        make type-check
+
   lint:
     runs-on: ubuntu-latest
     steps:
