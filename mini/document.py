@@ -56,22 +56,9 @@ class IniDocument:
         Return a string representation of the config. Use this function when you want to store
         the config in an INI file.
         """
-
-        result = ""
-
-        # Write the default section
-        for key, value in self._default_section.items():
-            result += f"{key} = {value}\n"
-        if self._default_section:
-            result += "\n"
-
-        # Write remaining sections
-        for section, properties in self._sections.items():
-            result += f"[{section}]\n"
-            for key, value in properties.items():
-                result += f"{key} = {value}\n"
-            result += "\n"
-
+        result = IniDocument._write_section(self._default_section)
+        for section_name, section in self._sections.items():
+            result += IniDocument._write_section(section, section_name)
         # Ensure there is only one newline at the end of the file
         return result.rstrip("\n") + "\n"
 
@@ -79,3 +66,18 @@ class IniDocument:
         """Return a JSON representation of the config."""
         d = self._default_section | self._sections
         return json.dumps(d, indent=2)
+
+    @staticmethod
+    def _write_section(section: Dict[str, str], section_name: str | None = None) -> str:
+        result = ""
+        # Add section header
+        if section_name:
+            result += f"[{section_name}]\n"
+
+        # Add section properties
+        result += "\n".join(f"{key} = {value}" for key, value in section.items())
+
+        # Sections are separated by blank lines
+        if section:
+            result += "\n\n"
+        return result

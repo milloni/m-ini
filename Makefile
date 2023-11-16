@@ -3,7 +3,7 @@ SHELL := /bin/bash
 .PHONY: test lint build type-check
 
 test: build
-	pytest
+	pytest -vv
 
 type-check: build
 	mypy --strict --package mini
