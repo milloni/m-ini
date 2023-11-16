@@ -16,6 +16,9 @@ def create_parser() -> ArgumentParser:
 def main() -> None:
     parser = create_parser()
     args = parser.parse_args()
+    if not any([args.validate, args.get, args.json]):
+        print("Error: one of --validate, --get or --json must be specified")
+        return
     if args.section and not args.get:
         print("Warning: --section is ignored without --get")
 
@@ -24,8 +27,8 @@ def main() -> None:
         tokenizer.tokenize_stream(f)
     try:
         doc = tokenizer.construct_document()
-    except ValueError as _:
-        print("Syntax error in INI file")
+    except ValueError as e:
+        print("Error:", e)
         return
 
     if args.validate:
