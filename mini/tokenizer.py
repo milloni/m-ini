@@ -1,7 +1,8 @@
+import logging
 import re
 from collections.abc import Iterable
-from typing import List
 from enum import Enum, auto
+from typing import List
 from dataclasses import dataclass
 from .document import IniDocument
 
@@ -65,6 +66,9 @@ class Tokenizer:
 
         The tokenizer must be initiated with `tokenize_stream()` prior to calling this method.
         """
+
+        if not self.tokens:
+            logging.warning("No tokens found. Did you call tokenize_stream() first?")
 
         # Keep track of what section we're in. `None` means the default section.
         current_section = None
