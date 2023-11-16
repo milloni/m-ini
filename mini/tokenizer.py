@@ -1,17 +1,17 @@
 import re
 from collections.abc import Iterable
 from typing import List
-from enum import Enum
+from enum import Enum, auto
 from dataclasses import dataclass
 from .document import IniDocument
 
 
 class TokenKind(Enum):
-    SECTION = 1
-    PROPERTY = 2
-    COMMENT = 3
-    EMPTY = 4
-    MALFORMED = 5
+    SECTION = auto()
+    PROPERTY = auto()
+    COMMENT = auto()
+    EMPTY = auto()
+    MALFORMED = auto()
 
 
 @dataclass
